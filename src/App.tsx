@@ -1,5 +1,12 @@
-function App() {
-    return <div>hello world</div>
-}
+import { useTheme } from 'lib/hooks'
+import { EditPage } from 'pages/edit-page'
 
-export default App
+export const App = () => {
+    useTheme()
+
+    return (
+        <div className="background">
+            <EditPage />
+        </div>
+    )
+}

@@ -1,7 +1,8 @@
 {
     "extends": ["stylelint-config-standard", "stylelint-config-idiomatic-order"],
     "rules": {
-        "declaration-colon-newline-after": "always-multi-line"
+        "declaration-colon-newline-after": "always-multi-line",
+        "color-function-notation": ["modern", { "ignore": ["with-var-inside"] }]
     },
     "ignoreFiles": [
         "build/**",

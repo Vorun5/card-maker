@@ -1,4 +1,4 @@
-:root.light {
+:root .light {
     --text: #000;
     --text-rgb: 0, 0, 0;
     --background: #fff;
@@ -11,7 +11,7 @@
     --accent-rgb: 255, 176, 132;
 }
 
-:root.dark {
+:root .dark {
     --text: #f5f1f0;
     --text-rgb: 245, 241, 240;
     --background: #15100e;
@@ -27,4 +27,10 @@
 body,
 html {
     font: 18px/1.5 Inter, sans-serif;
+}
+
+.background {
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: var(--background);
 }
