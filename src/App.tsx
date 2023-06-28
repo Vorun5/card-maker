@@ -1,4 +1,5 @@
 import { useTheme } from 'lib/hooks'
+
 import { EditPage } from 'pages/edit-page'
 
 export const App = () => {
