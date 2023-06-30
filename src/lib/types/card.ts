@@ -8,6 +8,6 @@ export interface Card {
     backgroundColor: string
     borderRadius: number
     size: Size
-    focusItems: string[]
+    focusElements: string[]
     elements: Element[]
 }

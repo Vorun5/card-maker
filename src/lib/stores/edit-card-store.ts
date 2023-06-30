@@ -5,15 +5,7 @@ import { Element } from 'lib/types/element'
 import { ImageElement } from 'lib/types/image-element'
 import { TextElement } from 'lib/types/text-element'
 import { ShapeElement } from 'lib/types/shape-element'
-
-type State = Card
-
-type Action = {
-    changeCardName: (name: string) => void
-    changeCardSize: (size: Size) => void
-    changeCardBorderRadius: (borderRaius: number) => void
-    addElementToCard: (element: Element) => void
-}
+import { Coordinates } from 'lib/types/coordinates'
 
 const getElements = (): Element[] => {
     const text: TextElement = {
@@ -45,7 +37,7 @@ const getElements = (): Element[] => {
             x: 50,
             y: 50,
         },
-        src: 'https://sun9-74.userapi.com/impg/ZSp8gAhU4zzH2xrNeeiaN668qQfqRlXmM0JXWA/x60T-YqKoBg.jpg?size=2560x2522&quality=95&sign=ed2b405126085a6ff226273ba42c1ec2&type=album',
+        src: 'https://live.staticflickr.com/3179/2778393845_4af978d9e8_z.jpg',
     }
 
     const triangle: ShapeElement = {
@@ -99,13 +91,26 @@ const getElements = (): Element[] => {
     return [image, text, triangle, rectangle, circle]
 }
 
+type State = Card
+
+type Action = {
+    changeCardName: (name: string) => void
+    changeCardSize: (size: Size) => void
+    changeCardBorderRadius: (borderRaius: number) => void
+    addElementToCard: (element: Element) => void
+    addFocusElement: (elementId: string) => void
+    removeFocusElement: (elementId: string) => void
+    clearFocusElements: () => void
+    changeElementCoordinates: (elementId: string, coordinates: Coordinates) => void
+}
+
 export const useEditCardStore = create<State & Action>((set) => ({
     id: Date.now().toString(),
     backgroundColor: 'grey',
     createdAt: Date.now().toLocaleString(),
     borderRadius: 0,
     elements: getElements(),
-    focusItems: [],
+    focusElements: [],
     name: 'Undefined',
     size: {
         height: 500,
@@ -119,7 +124,20 @@ export const useEditCardStore = create<State & Action>((set) => ({
     },
     changeCardSize: (size) => set({ size }),
     changeCardBorderRadius: (borderRadius) => set({ borderRadius }),
-    addElementToCard: (element) => {
-        set((state) => ({ elements: [...state.elements, element] }))
-    },
+    addElementToCard: (element) => set((state) => ({ elements: [...state.elements, element] })),
+    addFocusElement: (elementId) =>
+        set((state) => ({ focusElements: [...state.focusElements, elementId] })),
+    removeFocusElement: (elementId) =>
+        set((state) => ({ focusElements: state.focusElements.filter((id) => elementId !== id) })),
+    clearFocusElements: () => set(() => ({ focusElements: [] })),
+    changeElementCoordinates: (elementId, coordinates) =>
+        set((state) => ({
+            elements: state.elements.map((element) => {
+                if (element.id !== elementId) return element
+                return {
+                    ...element,
+                    coordinates,
+                }
+            }),
+        })),
 }))

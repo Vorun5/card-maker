@@ -1,10 +1,7 @@
-import { Canvas } from 'widgets/canvas'
+import { Canvas } from 'components/canvas'
 import { EditPageHeader } from './edit-page-header'
-// import { useEditCardStore } from 'lib/stores/edit-card-store'
 
 export const EditPage = () => {
-    // const { changeCardName, name } = useEditCardStore()
-
     return (
         <main className="edit-page">
             <EditPageHeader />

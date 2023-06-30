@@ -1,25 +1,25 @@
 :root .light {
-    --text: #000;
+    --text: #212020;
     --text-rgb: 0, 0, 0;
-    --background: #fff;
+    --background: #f0eeee;
     --background-rgb: 255, 255, 255;
     --primary-button: #4685ff;
     --primary-button-rgb: 70, 133, 255;
     --secondary-button: #f2f2f2;
     --secondary-button-rgb: 242, 242, 242;
-    --accent: #ffb084;
+    --accent: #f4864f;
     --accent-rgb: 255, 176, 132;
 }
 
 :root .dark {
-    --text: #f5f1f0;
+    --text: #c4c3c3;
     --text-rgb: 245, 241, 240;
-    --background: #15100e;
+    --background: #282422;
     --background-rgb: 21, 16, 14;
     --primary-button: #1411ee;
     --primary-button-rgb: 20, 17, 238;
     --secondary-button: #281e1b;
     --secondary-button-rgb: 40, 30, 27;
-    --accent: #bc978a;
+    --accent: #ba7961;
     --accent-rgb: 188, 151, 138;
 }
