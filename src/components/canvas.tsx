@@ -45,10 +45,14 @@ export const Canvas = () => {
         borderRadius,
         elements,
         focusElements,
+        draggableElements,
         clearFocusElements,
         addFocusElement,
         removeFocusElement,
         changeElementCoordinates,
+        changeElementSize,
+        addDraggableElements,
+        clearDraggableElements,
     } = useEditCardStore()
 
     const displayedSize = size
@@ -58,13 +62,6 @@ export const Canvas = () => {
     if (size.height > 10000) displayedSize.height = 10000
 
     const canvasRef = useRef<HTMLDivElement>(null)
-
-    const changeCoordinates = useCallback(
-        (id: string, coordinates: Coordinates) => {
-            changeElementCoordinates(id, coordinates)
-        },
-        [changeElementCoordinates],
-    )
 
     return (
         <div className="canvas-container">
@@ -83,13 +80,17 @@ export const Canvas = () => {
                 <div className="canvas-click" onClick={clearFocusElements} />
                 {elements.map((element, index) => (
                     <Element
-                        changeElementCoordinates={changeCoordinates}
+                        changeElementCoordinates={changeElementCoordinates}
                         key={element.id}
                         element={element}
                         index={index}
                         isFocus={focusElements.includes(element.id)}
+                        isDraggble={draggableElements.includes(element.id)}
                         addFocusElement={addFocusElement}
                         removeFocusElement={removeFocusElement}
+                        changeElementSize={changeElementSize}
+                        addDraggableElements={addDraggableElements}
+                        clearDraggableElements={clearDraggableElements}
                     />
                 ))}
             </div>

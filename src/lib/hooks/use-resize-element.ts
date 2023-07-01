@@ -1,17 +1,20 @@
 import { Coordinates } from 'lib/types/coordinates'
+import { Size } from 'lib/types/size'
 import { useEffect, RefObject } from 'react'
 
-export const useDragAndDropElement = (
+export const useResizeElement = (
     block: RefObject<HTMLElement>,
-    defaultCoordinates: Coordinates,
-    changeElementCoordinates: (coordinates: Coordinates) => void,
+    defaultSize: Size,
+    resizeBlockBL: RefObject<HTMLElement>,
+    changeElementSize: (size: Size) => void,
     addDraggableElements: () => void,
     clearDraggableElements: () => void,
 ) => {
     useEffect(() => {
         const currentBlock = block.current
+        const currnetResizeBL = resizeBlockBL.current
 
-        if (!currentBlock) return
+        if (!currentBlock || !currnetResizeBL) return
 
         let startCoordinates: Coordinates
 
@@ -25,7 +28,7 @@ export const useDragAndDropElement = (
             document.addEventListener('mouseup', handleMouseUp)
         }
 
-        let newCoordinates: Coordinates
+        let newSize: Size
 
         const handleMouseMove = (event: MouseEvent) => {
             if (!currentBlock) return
@@ -35,32 +38,33 @@ export const useDragAndDropElement = (
                     x: event.pageX - startCoordinates.x,
                     y: event.pageY - startCoordinates.y,
                 }
-                newCoordinates = {
-                    x: defaultCoordinates.x + delta.x,
-                    y: defaultCoordinates.y + delta.y,
+                newSize = {
+                    width: defaultSize.width + delta.x,
+                    height: defaultSize.height + delta.y,
                 }
-                currentBlock.style.left = `${newCoordinates.x}px`
-                currentBlock.style.top = `${newCoordinates.y}px`
+                currentBlock.style.width = `${newSize.width}px`
+                currentBlock.style.height = `${newSize.height}px`
             }
         }
 
         const handleMouseUp = () => {
-            if (newCoordinates) {
-                changeElementCoordinates(newCoordinates)
+            if (newSize) {
+                changeElementSize(newSize)
             }
             clearDraggableElements()
             document.removeEventListener('mousemove', handleMouseMove)
             document.removeEventListener('mouseup', handleMouseUp)
         }
 
-        currentBlock.addEventListener('mousedown', handleMousedown)
+        currnetResizeBL.addEventListener('mousedown', handleMousedown)
         return () => {
-            currentBlock.removeEventListener('mousedown', handleMousedown)
+            currnetResizeBL.removeEventListener('mousedown', handleMousedown)
         }
     }, [
         block,
-        defaultCoordinates,
-        changeElementCoordinates,
+        defaultSize,
+        changeElementSize,
+        resizeBlockBL,
         addDraggableElements,
         clearDraggableElements,
     ])

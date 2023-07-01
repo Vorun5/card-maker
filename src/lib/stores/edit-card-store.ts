@@ -1,7 +1,7 @@
 import { Card } from 'lib/types/card'
 import { Size } from 'lib/types/size'
 import { create } from 'zustand'
-import { Element } from 'lib/types/element'
+import { Element, maxElementSize, minElementSize } from 'lib/types/element'
 import { ImageElement } from 'lib/types/image-element'
 import { TextElement } from 'lib/types/text-element'
 import { ShapeElement } from 'lib/types/shape-element'
@@ -101,7 +101,10 @@ type Action = {
     addFocusElement: (elementId: string) => void
     removeFocusElement: (elementId: string) => void
     clearFocusElements: () => void
+    clearDraggableElements: () => void
+    addDraggableElements: (elementsId: string[]) => void
     changeElementCoordinates: (elementId: string, coordinates: Coordinates) => void
+    changeElementSize: (elementId: string, size: Size) => void
 }
 
 export const useEditCardStore = create<State & Action>((set) => ({
@@ -111,6 +114,7 @@ export const useEditCardStore = create<State & Action>((set) => ({
     borderRadius: 0,
     elements: getElements(),
     focusElements: [],
+    draggableElements: [],
     name: 'Undefined',
     size: {
         height: 500,
@@ -130,6 +134,8 @@ export const useEditCardStore = create<State & Action>((set) => ({
     removeFocusElement: (elementId) =>
         set((state) => ({ focusElements: state.focusElements.filter((id) => elementId !== id) })),
     clearFocusElements: () => set(() => ({ focusElements: [] })),
+    clearDraggableElements: () => set(() => ({ draggableElements: [] })),
+    addDraggableElements: (elementsId) => set(() => ({ draggableElements: elementsId })),
     changeElementCoordinates: (elementId, coordinates) =>
         set((state) => ({
             elements: state.elements.map((element) => {
@@ -140,4 +146,22 @@ export const useEditCardStore = create<State & Action>((set) => ({
                 }
             }),
         })),
+    changeElementSize: (elementId, size) =>
+        set((state) => {
+            const newSize: Size = size
+            if (size.width < minElementSize) size.width = minElementSize
+            if (size.height < minElementSize) size.height = minElementSize
+            if (size.width > maxElementSize) size.width = maxElementSize
+            if (size.height > maxElementSize) size.height = maxElementSize
+
+            return {
+                elements: state.elements.map((element) => {
+                    if (element.id !== elementId) return element
+                    return {
+                        ...element,
+                        size: newSize,
+                    }
+                }),
+            }
+        }),
 }))

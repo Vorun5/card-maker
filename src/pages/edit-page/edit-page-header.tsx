@@ -1,6 +1,5 @@
 import { ThemeSwitcher } from 'components/theme-switcher'
 import { useEditCardStore } from 'lib/stores/edit-card-store'
-import { ReactComponent as Logo } from 'assets/logo.svg'
 
 export const EditPageHeader = () => {
     const { changeCardName, name, size, changeCardSize } = useEditCardStore()
@@ -19,9 +18,7 @@ export const EditPageHeader = () => {
     return (
         <header className="ep-header">
             <div className="ep-header-left">
-                <div className="ep-header-logo">
-                    <Logo />
-                </div>
+                <div className="ep-header-logo">{/* <Logo /> */}</div>
                 <div className="ep-header-info">
                     <input
                         className="ep-header-name clean-input"
